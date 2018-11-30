@@ -62,7 +62,7 @@ class Network:
         uuid_ = str(uuid.uuid4())
         csr_matrix = self.make_csr_matrix(self.all_pairs,self.all_distances,connections)
         csr_matrix_binary = csr_matrix.sign()
-        num_components = csgraph.connected_components(matrix)[0]
+        num_components = csgraph.connected_components(csr_matrix_binary)[0]
         total_distance = np.sum(csr_matrix)
         connection_counts = []
         for i in range(csr_matrix_binary.shape[0]):
@@ -127,7 +127,7 @@ class Network:
                 valid = True
         return connections
     
-    def evolve(self,pop_size=2000,no_change_threshold=100,max_iterations=10000):
+    def evolve(self,pop_size=2000,no_change_threshold=100,max_iterations=50000):
         num_unchanged = 0
         num_iterations = 0
         while (num_unchanged < no_change_threshold and num_iterations < max_iterations):
